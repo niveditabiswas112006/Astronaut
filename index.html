@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astronauts & Fun Facts</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            color: #00ff88;
+            font-size: 2.5em;
+            text-shadow: 0 0 10px rgba(0,255,136,0.3);
+            margin: 40px 0;
+        }
+
+        /* Fun Facts Section */
+        .fun-facts-container {
+            text-align: center;
+            padding: 2.5rem;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            background: rgba(22, 33, 62, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        #fact {
+            font-size: 1.3rem;
+            color: white;
+            margin: 30px 0;
+            min-height: 80px;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        button {
+            font-size: 1.1rem;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #00ff88, #00cc6a);
+            color: #203a43;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Astronaut Cards Section */
+        .astronaut-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .astronaut-card {
+            background: rgba(22, 33, 62, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .astronaut-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .astronaut-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid rgba(0,255,136,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .astronaut-info {
+            margin-top: 20px;
+        }
+
+        .astronaut-name {
+            color: #00ff88;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(0,255,136,0.3);
+            padding-bottom: 10px;
+        }
+
+        .info-item {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .info-item strong {
+            color: #00ff88;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .astronaut-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 Space Explorer Hub</h1>
+
+    <div class="fun-facts-container">
+        <h2 style="color: #00ff88;">Space Fun Facts</h2>
+        <p id="fact">Click the button to reveal a space fact!</p>
+        <button id="generate-btn">Generate Space Fact</button>
+    </div>
+
+    <h1>Famous Astronauts</h1>
+    <div class="astronaut-container" id="astronaut-list"></div>
+
+    <script>
+        // Space Facts Array
+        const facts = [
+            "The Moon is moving away from Earth at a rate of 3.8 centimeters per year! 🌙",
+            "A day on Venus is longer than its year! ⏰",
+            "The footprints on the Moon will last for 100 million years! 👣",
+            "The Sun makes up 99.86% of our solar system's mass! ☀️",
+            "Space is completely silent! 🤫",
+            "There are more stars in the universe than grains of sand on Earth! ⭐",
+            "The largest known star, UY Scuti, is 1,700 times larger than our Sun! 🌟",
+            "A year on Mercury is only 88 Earth days! 📅",
+            "There's a volcano on Mars three times taller than Mount Everest! 🌋",
+            "The International Space Station travels at 17,500 mph! 🛸"
+        ];
+
+        // Astronauts Data
+        const astronautsData = {
+            "astronauts": [
+                {
+                    "name": "Neil Armstrong",
+                    "nationality": "American",
+                    "birth": "August 5, 1930",
+                    "death": "August 25, 2012",
+                    "famous_for": "First person to walk on the Moon",
+                    "missions": ["Gemini 8", "Apollo 11"],
+                    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Neil_Armstrong_pose.jpg/640px-Neil_Armstrong_pose.jpg"
+                },
+                {
+                    "name": "Yuri Gagarin",
+                    "nationality": "Soviet",
+                    "birth": "March 9, 1934",
+                    "death": "March 27, 1968",
+                    "famous_for": "First human in space",
+                    "missions": ["Vostok 1"],
+                    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/RIAN_archive_612748_Yury_Gagarin.jpg/640px-RIAN_archive_612748_Yury_Gagarin.jpg"
+                },
+                {
+                    "name": "Sally Ride",
+                    "nationality": "American",
+                    "birth": "May 26, 1951",
+                    "death": "July 23, 2012",
+                    "famous_for": "First American woman in space",
+                    "missions": ["STS-7", "STS-41-G"],
+                    "image": "https://upload.wikimedia.org/thumb/e/ee/S83-35766.jpg/640px-S83-35766.jpg"
+                }
+            ]
+        };
+
+        // Fun Facts Generator Function
+        function generateFact() {
+            const factElement = document.getElementById('fact');
+            const randomIndex = Math.floor(Math.random() * facts.length);
+            
+            factElement.classList.remove('fade-in');
+            void factElement.offsetWidth;
+            factElement.classList.add('fade-in');
+            
+            factElement.textContent = facts[randomIndex];
+        }
+
+        // Astronaut Cards Function
+        function createAstronautCards() {
+            const container = document.getElementById('astronaut-list');
+            
+            astronautsData.astronauts.forEach(astronaut => {
+                const card = document.createElement('div');
+                card.className = 'astronaut-card';
+                
+                card.innerHTML = `
+                    <img src="${astronaut.image}" alt="${astronaut.name}" loading="lazy">
+                    <div class="astronaut-info">
+                        <div class="astronaut-name">${astronaut.name}</div>
+                        <div class="info-item"><strong>Nationality:</strong> ${astronaut.nationality}</div>
+                        <div class="info-item"><strong>Birth:</strong> ${astronaut.birth}</div>
+                        <div class="info-item"><strong>Death:</strong> ${astronaut.death}</div>
+                        <div class="info-item"><strong>Famous for:</strong> ${astronaut.famous_for}</div>
+                        <div class="info-item"><strong>Missions:</strong> ${astronaut.missions.join(', ')}</div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        // Initialize everything
+        window.onload = () => {
+            createAstronautCards();
+            generateFact();
+        };
+
+        // Add event listener for fun facts button
+        document.getElementById('generate-btn').addEventListener('click', generateFact);
+    </script>
+</body>
+</html>
